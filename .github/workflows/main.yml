@@ -37,9 +37,9 @@ jobs:
       - name: login to docker hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
       - name: buil docker image
-        run: docker compose up --build
+        run: docker compose up
       - name: push image to docker hub
-        run: docker push docker push shaloomniyibizi/node-app:latest
+        run: docker push docker push shaloomniyibizi/node-app
 
   securityCheck:
     needs: build

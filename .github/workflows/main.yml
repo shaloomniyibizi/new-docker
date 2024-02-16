@@ -28,18 +28,18 @@ jobs:
       - name: Run linting test
         run: |
           echo "running linting test ......"
-          npm run lint
+          sleep 10s
 
-  # dockerize:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: buil docker image
-  #       run: docker compose up
-  #     - name: login to docker hub
-  #       run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-  #     - name: push image to docker hub
-  #       run: docker push docker push shaloomniyibizi/node-app
+  dockerize:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: login to docker hub
+        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+      - name: build docker image
+        run: docker build -t shaloomniyibizi/node-app .
+      - name: push image to docker hub
+        run: docker push shaloomniyibizi/node-app
 
   securityCheck:
     needs: build

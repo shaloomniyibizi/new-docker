@@ -23,8 +23,7 @@ jobs:
 
   test:
     needs: build
-    name: lint
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Run linting test
         run: |
@@ -35,7 +34,7 @@ jobs:
 
   dockerize:
     needs: build
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: login to docker hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
@@ -47,7 +46,7 @@ jobs:
   securityCheck:
     needs: build
     name: security checks
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: check for security
         run: |
@@ -59,11 +58,13 @@ jobs:
           sleep 5s
           echo "running securuty check 4 ......"
           sleep 5s
+
   deploy:
     name: deployment
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     needs: [test, securityCheck]
     steps:
       - name: Deployment an application
         run: |
+          sleep 5s
           echo "deployment in progress ......"

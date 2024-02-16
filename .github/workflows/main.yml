@@ -21,17 +21,6 @@ jobs:
           echo "running installing dependecies ......"
           npm install
 
-  dockerize:
-    needs: build
-    run-on: ubuntu-latest
-    steps:
-      - name: login to docker hub
-        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-      - name: buil docker image
-        run: docker compose --build
-      - name: push image to docker hub
-        run: docker push shaloom/nodeApp
-
   test:
     needs: build
     name: lint
@@ -43,6 +32,17 @@ jobs:
           npm run lint
         env:
           CI: true
+
+  dockerize:
+    needs: build
+    run-on: ubuntu-latest
+    steps:
+      - name: login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: buil docker image
+        run: docker compose --build
+      - name: push image to docker hub
+        run: docker push shaloom/node-app
 
   securityCheck:
     needs: build

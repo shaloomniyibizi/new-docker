@@ -21,25 +21,25 @@ jobs:
           echo "running installing dependecies ......"
           npm install
 
-  # test:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Run linting test
-  #       run: |
-  #         echo "running linting test ......"
-  #         npm run lint
-
-  dockerize:
+  test:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: buil docker image
-        run: docker compose up
-      - name: login to docker hub
-        run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-      - name: push image to docker hub
-        run: docker push docker push shaloomniyibizi/node-app
+      - name: Run linting test
+        run: |
+          echo "running linting test ......"
+          npm run lint
+
+  # dockerize:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: buil docker image
+  #       run: docker compose up
+  #     - name: login to docker hub
+  #       run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+  #     - name: push image to docker hub
+  #       run: docker push docker push shaloomniyibizi/node-app
 
   securityCheck:
     needs: build

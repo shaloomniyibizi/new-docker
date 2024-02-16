@@ -37,6 +37,8 @@ jobs:
       - name: login to docker hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
       - name: build docker image
+        run: cd /app
+      - name: build docker image
         run: docker build - < Dockerfile
       - name: push image to docker hub
         run: docker push shaloomniyibizi/node-app

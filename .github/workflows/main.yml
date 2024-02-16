@@ -29,8 +29,6 @@ jobs:
         run: |
           echo "running linting test ......"
           npm run lint
-        env:
-          CI: true
 
   dockerize:
     needs: build
@@ -39,7 +37,7 @@ jobs:
       - name: login to docker hub
         run: docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin ${{secrets.DOCKER_PASSWORD}}
       - name: buil docker image
-        run: docker compose --build
+        run: docker compose up --build
       - name: push image to docker hub
         run: docker push docker push shaloomniyibizi/node-app:latest
 

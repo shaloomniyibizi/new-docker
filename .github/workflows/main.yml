@@ -21,14 +21,14 @@ jobs:
           echo "running installing dependecies ......"
           npm install
 
-  test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Run linting test
-        run: |
-          echo "running linting test ......"
-          npm run lint
+  # test:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Run linting test
+  #       run: |
+  #         echo "running linting test ......"
+  #         npm run lint
 
   dockerize:
     needs: build

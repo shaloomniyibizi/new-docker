@@ -1,0 +1,69 @@
+name: ci/cd project
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: clone repository
+        uses: actions/checkout@v3
+      - name: congigure a node js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
+      - name: installing dependecies
+        run: |
+          echo "running installing dependecies ......"
+          npm install
+
+  dockerize:
+    needs: build
+    run-on: ubuntu-latest
+    steps:
+      - name: login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: buil docker image
+        run: docker compose --build
+      - name: push image to docker hub
+        run: docker push shaloom/nodeApp
+
+  test:
+    needs: build
+    name: lint
+    run-on: ubuntu-latest
+    steps:
+      - name: Run linting test
+        run: |
+          echo "running linting test ......"
+          npm run lint
+        env:
+          CI: true
+
+  securityCheck:
+    needs: build
+    name: security checks
+    run-on: ubuntu-latest
+    steps:
+      - name: check for security
+        run: |
+          echo "running securuty check 1 ......"
+          sleep 5s
+          echo "running securuty check 2 ......"
+          sleep 5s
+          echo "running securuty check 3 ......"
+          sleep 5s
+          echo "running securuty check 4 ......"
+          sleep 5s
+  deploy:
+    name: deployment
+    run-on: ubuntu-latest
+    needs: [test, securityCheck]
+    steps:
+      - name: Deployment an application
+        run: |
+          echo "deployment in progress ......"
